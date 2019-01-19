@@ -58,6 +58,7 @@ class Cdn:
         http_handler = Http_hander()             # 请求子；
         for ip in all_ips:
             ip = ip.replace("\n", "")
+            http_handler.set_cdn_ip(ip)
             start_time = time.time()
             url_temp = urls["loginInitCdn"]
             result = http_handler.request(url_temp)           # 请求；

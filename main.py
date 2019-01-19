@@ -1,7 +1,7 @@
 # coding = utf-8
 
 from Query.cdn import Cdn
-
+import time
 
 def main():
     """
@@ -9,6 +9,8 @@ def main():
     :return:
     """
     Cdn().run()         # 开启多线程进行cdn查询；
+    while True:
+        time.sleep(1000)
 
 
 def test():
