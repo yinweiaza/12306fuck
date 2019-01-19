@@ -63,4 +63,4 @@ class Cdn:
             url_temp = urls["loginInitCdn"]
             result = http_handler.request(url_temp)           # 请求；
             time_total = time.time() - start_time             # 时间耗损；
-            print(result)
+            print("{0}: {1}ms".format(ip, int(time_total*1000)))

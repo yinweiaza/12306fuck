@@ -1,9 +1,11 @@
 
-import requests
-import socket
-from collections import OrderedDict             # 有序字典
+
 import json
-import time
+import socket
+from collections import OrderedDict
+from time import sleep
+import requests
+import urllib3
 
 class Http_hander:
     def __init__(self):
@@ -28,6 +30,7 @@ class Http_hander:
         allow_redirects = False
         re_try = urls.get("re_try", 0)                                         # 请求次数
         re_time = urls.get("re_time", 0)                                       # 请求停留时间
+        s_time = urls.get("s_time", 0)
         is_test_cdn = urls.get("is_test_cdn", False)                               # 是否测试cdn;
         if data:                        # post;
             method = "post"
@@ -41,18 +44,25 @@ class Http_hander:
         host_ip = urls["Host"]
         if is_test_cdn:
             host_ip = self.cdn()
+            allow_redirects = True
         if is_cdn:
             ip_temp = self.cdn()
             if ip_temp:
                 host_ip = ip_temp
+                allow_redirects=True
         error_data = "重复次数达到了上限"
+        url="http://" + host_ip + urls["req_url"]
         for iter in range(re_try):                      # 多次尝试
             try:
+                sleep(s_time)
+                try:
+                    urllib3.disable_warnings()
+                except:
+                    pass
                 result = self.session.request(
                                                 method=method,
                                                 timeout=2,
                                                 url="http://" + host_ip + urls["req_url"],
-                                                proxies=None,               # 默认不用代理；
                                                 allow_redirects=allow_redirects,
                                                 data=data,
                                                 verify=False,
@@ -72,7 +82,7 @@ class Http_hander:
                         error_data = "内容为空"
                         return error_data
                 else:
-                    time.sleep(re_time)
+                    sleep(re_time)
             except (requests.exceptions.Timeout, requests.exceptions.ReadTimeout, requests.exceptions.ConnectionError):
                 pass
             except socket.error:
