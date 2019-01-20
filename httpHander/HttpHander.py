@@ -50,7 +50,7 @@ class Http_hander:
             if ip_temp:
                 host_ip = ip_temp
                 allow_redirects=True
-        error_data = "重复次数达到了上限"
+        error_data = {"message": "重复次数达到了上限"}
         url="http://" + host_ip + urls["req_url"]
         for iter in range(re_try):                      # 多次尝试
             try:
@@ -79,7 +79,7 @@ class Http_hander:
                             return result.content.decode("utf8", "ignore") if isinstance(result.content, bytes) else \
                                              result.content
                     else:
-                        error_data = "内容为空"
+                        error_data["message"] = "内容为空"
                         return error_data
                 else:
                     sleep(re_time)

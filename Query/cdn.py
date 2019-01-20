@@ -19,6 +19,7 @@ class Cdn:
         self.cdn_file = os.path.join(os.path.dirname(__file__), '../data/cdn_ips')
         self.all_ips = []               # 所有的cdn
         self.good_ips = []              # 响应速度快的cdn ip;
+        self.time_ips = []              #相应的时间耗损；
         self.load()                     # 创建自动加载cdn ip;
 
     def load(self):
@@ -50,6 +51,24 @@ class Cdn:
         t.setDaemon(True)           # 设置为后台线程，主线程不用等待子线程；
         t.start()
 
+    def order_good_ip(self, ip, times):
+        """
+        对检测到的cdn进行排序，按照时间耗损；
+        :param ip:
+        :param times:
+        :return:
+        """
+        l=len(self.good_ips)
+        if l > 10:
+            idx = self.time_ips.index(max(self.time_ips))
+            if self.time_ips[idx] > times:          #比最大的小，那么就置换；
+                self.good_ips[idx] = ip
+                self.time_ips[idx] = times
+        else:
+            self.good_ips.append(ip)
+            self.time_ips.append(times)
+
+
     def cdn_request(self, all_ips):
         """
         对所有的cdn_ip进行验证;
@@ -62,5 +81,8 @@ class Cdn:
             start_time = time.time()
             url_temp = urls["loginInitCdn"]
             result = http_handler.request(url_temp)           # 请求；
-            time_total = time.time() - start_time             # 时间耗损；
-            print("{0}: {1}ms".format(ip, int(time_total*1000)))
+            time_total = int((time.time() - start_time) * 1000)  # 时间耗损；
+            print("{0}: {1}ms".format(ip, time_total))
+            if result and "message" not in result and time_total<1000:
+                self.order_good_ip(ip, time_total)
+        print("所有的cdn检测完成")
