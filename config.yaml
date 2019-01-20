@@ -1,0 +1,41 @@
+# 设置账号；
+
+12306accouts:
+  -
+     user: 1393901022@qq.com
+     password: #######
+#  -
+#     user: 451014137@qq.com
+#     password: l681646
+
+# 默认开启CDN查询;
+enable_cdn: 1
+
+jobs:
+  -                                   # 以"-"表示一个任务；
+     key: 0     # 使用什么账户进行买;
+     from_to_stations:
+       - 深圳：武汉
+     from_date:           # 出发时间
+       - 2019.01.26
+     passengers:         #乘客
+       - 张山
+       - 王五
+     is_by_time: 0      # 0: 表示按照给定的车次进行查询; 1: 表示按照给定的时间进行查询;
+     trains:
+       - G1004
+       - G1008
+
+#  -
+#     key: 0     # 使用什么账户进行买;
+#     from_to_stations:
+#       - 深圳：武汉
+#     from_date:           # 出发时间
+#       - 2019.01.26
+#     passengers:         #乘客
+#       - 张山
+#       - 王五
+#     is_by_time: 0      # 0: 表示按照给定的车次进行查询; 1: 表示按照给定的时间进行查询;
+#     trains:
+#       - G1004
+#       - G1008

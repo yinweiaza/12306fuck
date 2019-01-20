@@ -4,10 +4,9 @@
 """
 
 from Query.cdn import Cdn
-from Query.RequestUrls import UrlConfig
+from Query.RequestUrls import *
 
 class Query:
     def __init__(self):
         self.cdn = Cdn()
-        self.urlsIns = UrlConfig()
 
