@@ -20,7 +20,6 @@ class Cdn:
         self.all_ips = []               # 所有的cdn
         self.good_ips = []              # 响应速度快的cdn ip;
         self.time_ips = []              #相应的时间耗损；
-        self.load()                     # 创建自动加载cdn ip;
 
     def load(self):
         """
@@ -40,6 +39,7 @@ class Cdn:
             sys.exit(-1)
 
     def run(self):
+        self.load()
         self.start()
 
     def start(self):
