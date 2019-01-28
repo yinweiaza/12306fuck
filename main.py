@@ -7,7 +7,7 @@ def main():
     主程序
     :return:
     """
-    JobManager()
+    JobManager().start()
 
 
 def test():
